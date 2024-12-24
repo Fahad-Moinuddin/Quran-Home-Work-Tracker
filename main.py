@@ -1,27 +1,32 @@
 from fastapi import FastAPI
-from databases import Database
+#from databases import Database
+import sqlite3
+from crud import create_user, get_user_by_id, get_all_users, update_user, delete_user
 
 app = FastAPI()
 
 # SQLite database connection
 DATABASE_URL = "sqlite:///./database.db"
-database = Database(DATABASE_URL)
+#database = Database(DATABASE_URL)
 
-@app.on_event("startup")
-async def startup():
-    await database.connect()
+@app.post("/users/")
+def create_user_endpoint(name: str, email: str, password: str, role: str):
+    return create_user(name, email, password, role)
 
-@app.on_event("shutdown")
-async def shutdown():
-    await database.disconnect()
+@app.get("/users/{user_id}")
+def get_user_endpoint(user_id: int):
+    return get_user_by_id(user_id)
 
-@app.get("/")
-async def read_root():
-    query = "SELECT * FROM items"
-    results = await database.fetch_all(query=query)
-    return {"items": results}
+@app.get("/users/")
+def get_all_users_endpoint():
+    return get_all_users()
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str=None):
-    return {"item_id": item_id, "q":q}
+@app.put("/users/{user_id}")
+def update_user_endpoint(user_id: int, name: str = None, email: str = None, role: str = None):
+    return update_user(user_id, name, email, role)
+
+@app.delete("/users/{user_id}")
+def delete_user_endpoint(user_id: int):
+    return delete_user(user_id)
+
 
