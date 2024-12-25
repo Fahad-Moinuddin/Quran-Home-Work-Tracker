@@ -111,6 +111,15 @@ def get_students_by_teacher(teacher_id) -> List[Dict[str, Any]]:
     connection.close()
     return [{"student id": students[0], "name": students[1], "email": students[2], "parent id": students[3], "teacher id": students[4], "classroom": students[5]}]
 
+def get_students_by_parent(parent_id) -> List[Dict[str, Any]]:
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM Students WHERE parent_id = ?", (parent_id,))
+    students = cursor.fetchall()
+    connection.close()
+    return [{"student id": students[0], "name": students[1], "email": students[2], "parent id": students[3],
+             "teacher id": students[4], "classroom": students[5]}]
+
 def get_all_students() -> List[Dict[str, Any]]:
     connection = get_db_connection()
     cursor = connection.cursor()
