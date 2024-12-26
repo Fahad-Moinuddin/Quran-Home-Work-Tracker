@@ -3,6 +3,8 @@ from fastapi import FastAPI
 import sqlite3
 from crud import create_user, get_user_by_id, get_all_users, update_user, delete_user
 
+"""Use the folowing comamnd in the terminal to activate the env"""
+#env\Scripts\activate
 app = FastAPI()
 
 # SQLite database connection
