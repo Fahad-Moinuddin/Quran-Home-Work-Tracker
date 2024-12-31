@@ -27,7 +27,7 @@ import sqlite3
 #     FOREIGN KEY (teacher_id) REFERENCES Users(id)
 # );
 #
-# CREATE TABLE Homework (
+# CREATE TABLE Homeworks (
 #     id INTEGER PRIMARY KEY AUTOINCREMENT,
 #     title TEXT NOT NULL,
 #     description TEXT NOT NULL,
@@ -39,24 +39,24 @@ import sqlite3
 #     status TEXT NOT NULL CHECK(status IN ('completed', 'pending'))
 # );
 #
-# CREATE TABLE HomeworkAssignments (
+# CREATE TABLE Assignments (
 #     id INTEGER PRIMARY KEY AUTOINCREMENT,
-#     homework_id INTEGER NOT NULL,
 #     student_id INTEGER NOT NULL,
+#     homework_id INTEGER,
+#     task_id INTEGER,
 #
-#     FOREIGN KEY (homework_id) REFERENCES Homework(id),
-#     FOREIGN KEY (student_id) REFERENCES Students(id)
+#     FOREIGN KEY (student_id) REFERENCES Students(id),
+#     FOREIGN KEY (homework_id) REFERENCES Homeworks(id),
+#     FOREIGN KEY (task_id) REFERENCES Tasks(id)
 # );
 #
-# CREATE TABLE Task (
+# CREATE TABLE Tasks (
 #     id INTEGER PRIMARY KEY AUTOINCREMENT,
-#     student_id INTEGER NOT NULL,
+#     title TEXT NOT NULL,
 #     description TEXT NOT NULL,
 #     start_date DATE,
 #     end_date DATE,
-#     status TEXT NOT NULL CHECK(status IN ('completed', 'incomplete')),
-#
-#     FOREIGN KEY (student_id) REFERENCES Students(id)
+#     status TEXT NOT NULL CHECK(status IN ('completed', 'incomplete'))
 # );
 # """
 #
@@ -90,14 +90,14 @@ import sqlite3
 
 
 """Use the follwoing code to check table structure"""
-def check_table_structure():
-    connection = sqlite3.connect("database.db")
-    cursor = connection.cursor()
-    cursor.execute("PRAGMA table_info(Homework);")
-    columns = cursor.fetchall()
-    connection.close()
-    for column in columns:
-        print(column)
-
-check_table_structure()
+# def check_table_structure():
+#     connection = sqlite3.connect("database.db")
+#     cursor = connection.cursor()
+#     cursor.execute("PRAGMA table_info(Homework);")
+#     columns = cursor.fetchall()
+#     connection.close()
+#     for column in columns:
+#         print(column)
+#
+# check_table_structure()
 
